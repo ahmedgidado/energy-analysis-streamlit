@@ -570,7 +570,7 @@ elif page == "📈 Energy Fits":
                             equation = f"y = {np.exp(coeffs[1]):.3f} * exp({coeffs[0]:.3f} * x)"
                         except:
                             st.error("Exponential fit failed. Try linear or polynomial.")
-                             st.stop()  # Stop execution here instead of continue
+                            st.stop()  # Stop execution here instead of continue
                     
                     # Calculate R-squared
                     ss_res = np.sum((y - y_fit) ** 2)
