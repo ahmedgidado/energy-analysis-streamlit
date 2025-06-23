@@ -204,7 +204,7 @@ elif page == "🌤️ Weather Data":
     st.header("🌤️ Weather Data Management")
     
     # API Data Fetching Section
-    st.subheader("🌐 Get Real Weather Data from Environment Canada")
+    st.subheader("🌐 Get Historical Weather Data from Environment Canada")
     
     # Get available stations
     stations = get_environment_canada_stations()
@@ -236,7 +236,7 @@ elif page == "🌤️ Weather Data":
     # Validate date range
     if start_date >= end_date:
         st.error("Start date must be before end date")
-    elif (end_date - start_date).days > 365:
+    elif (end_date - start_date).days > 1000: #Limiting fetch to about 3 years to allow API to load faster
         st.warning("Large date ranges may take longer to fetch. Consider smaller ranges for faster results.")
     else:
         if st.button("🔄 Fetch Weather Data from Environment Canada", type="primary"):
@@ -294,46 +294,6 @@ elif page == "🌤️ Weather Data":
                     
             except Exception as e:
                 st.error(f"Error fetching weather data: {str(e)}")
-    
-    # Manual data entry section
-    st.subheader("📝 Manual Data Entry")
-    
-    with st.expander("Add Weather Data Manually"):
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            location = st.text_input("📍 Location", value="Custom Location")
-            temperature = st.number_input("🌡️ Temperature (°C)", value=20.0, step=0.1)
-        
-        with col2:
-            humidity = st.number_input("💧 Humidity (%)", value=60.0, min_value=0.0, max_value=100.0, step=0.1)
-            wind_speed = st.number_input("💨 Wind Speed (km/h)", value=15.0, min_value=0.0, step=0.1)
-        
-        with col3:
-            # FIXED: Use separate date and time inputs
-            manual_date = st.date_input("📅 Date", datetime.now().date(), key="manual_date")
-            manual_time = st.time_input("🕐 Time", datetime.now().time(), key="manual_time")
-        
-        if st.button("💾 Add Manual Weather Record", type="secondary"):
-            # Combine date and time
-            date_time = datetime.combine(manual_date, manual_time)
-            
-            new_record = pd.DataFrame({
-                'Date_Time': [date_time],
-                'Location': [location],
-                'Temperature (°C)': [temperature],
-                'Humidity (%)': [humidity],
-                'Wind Speed (km/h)': [wind_speed],
-                'Dew_Point_Temp_C': [temperature - 5]  # Rough estimate
-            })
-            
-            if st.session_state.weather_data.empty:
-                st.session_state.weather_data = new_record
-            else:
-                st.session_state.weather_data = pd.concat([st.session_state.weather_data, new_record], ignore_index=True)
-            
-            st.success("✅ Manual weather record added!")
-            st.rerun()
     
     # Display existing weather data
     if not st.session_state.weather_data.empty:
