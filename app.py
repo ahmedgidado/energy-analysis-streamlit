@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 # Configure the page
 st.set_page_config(
@@ -61,9 +61,14 @@ elif page == "🌤️ Weather Data":
     
     with col2:
         location = st.text_input("Location", value="Test Location")
-        date_time = st.datetime_input("Date & Time", datetime.now())
+        # FIXED: Use separate date and time inputs
+        date_input = st.date_input("📅 Date", datetime.now().date())
+        time_input = st.time_input("🕐 Time", datetime.now().time())
     
     if st.button("Add Record"):
+        # Combine date and time
+        date_time = datetime.combine(date_input, time_input)
+        
         new_record = pd.DataFrame({
             'Date_Time': [date_time],
             'Temperature (°C)': [temp],
@@ -98,12 +103,23 @@ elif page == "⚡ Energy Data":
     st.write("Energy data section - basic functionality")
     
     # Simple energy data entry
-    equipment = st.text_input("Equipment ID", value="HVAC_01")
-    power = st.number_input("Power (kW)", value=1500.0)
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        equipment = st.text_input("Equipment ID", value="HVAC_01")
+        power = st.number_input("Power (kW)", value=1500.0)
+    
+    with col2:
+        # FIXED: Use separate date and time inputs for energy data too
+        energy_date = st.date_input("📅 Date", datetime.now().date(), key="energy_date")
+        energy_time = st.time_input("🕐 Time", datetime.now().time(), key="energy_time")
     
     if st.button("Add Energy Record"):
+        # Combine date and time
+        timestamp = datetime.combine(energy_date, energy_time)
+        
         new_record = pd.DataFrame({
-            'Timestamp': [datetime.now()],
+            'Timestamp': [timestamp],
             'Equipment ID': [equipment],
             'Power (kW)': [power]
         })
@@ -119,7 +135,24 @@ elif page == "⚡ Energy Data":
     # Display energy data
     if not st.session_state.energy_data.empty:
         st.dataframe(st.session_state.energy_data)
+        
+        # Simple energy plot
+        if len(st.session_state.energy_data) > 1:
+            fig = px.line(st.session_state.energy_data, 
+                         x='Timestamp', 
+                         y='Power (kW)', 
+                         color='Equipment ID',
+                         title='Power Consumption Over Time')
+            st.plotly_chart(fig, use_container_width=True)
 
 # Footer
 st.sidebar.markdown("---")
 st.sidebar.write("🔧 Basic Version - Testing")
+
+# Debug section
+if st.sidebar.checkbox("🐛 Debug Mode"):
+    st.sidebar.write("Session State Keys:", list(st.session_state.keys()))
+    if 'weather_data' in st.session_state:
+        st.sidebar.write("Weather Data Shape:", st.session_state.weather_data.shape)
+    if 'energy_data' in st.session_state:
+        st.sidebar.write("Energy Data Shape:", st.session_state.energy_data.shape)
