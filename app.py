@@ -463,7 +463,7 @@ elif page == "⚡ Energy Data":
         
         # Plot energy data
         fig = px.line(st.session_state.energy_data, x='Month', y='Electric', 
-                     color='Equipment ID', title='Power Consumption Over Time')
+                     title='Power Consumption Over Time')
         st.plotly_chart(fig, use_container_width=True)
         
         st.dataframe(st.session_state.energy_data, use_container_width=True)
