@@ -1,4 +1,4 @@
-import streamlit as st
+ectricimport streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -462,7 +462,7 @@ elif page == "⚡ Energy Data":
         st.subheader("📊 Energy Data Visualization")
         
         # Plot energy data
-        fig = px.line(st.session_state.energy_data, x='Month', y='Power (kW)', 
+        fig = px.line(st.session_state.energy_data, x='Month', y='Electric', 
                      color='Equipment ID', title='Power Consumption Over Time')
         st.plotly_chart(fig, use_container_width=True)
         
