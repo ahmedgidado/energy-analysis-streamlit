@@ -27,7 +27,14 @@ if 'energy_data' not in st.session_state:
 def get_environment_canada_stations():
     """Get list of Environment Canada weather stations"""
     stations = {
-        "Vancouver (YVR)": 51442,
+        "Vancouver Airport (YVR)": 51442,
+        "Vancouver Harbour BC": 888,
+        "Victoria BC": 51337,
+        "Pitt Meadows BC": 6830,
+        "Surrey BC": 1108,
+        "Abbotsford BC": 54238,
+        "Powell River BC": 45807,
+        "Prince George BC": 48370,
         "Toronto (YYZ)": 51459,
         "Montreal (YUL)": 30165,
         "Calgary (YYC)": 2205,
@@ -36,13 +43,8 @@ def get_environment_canada_stations():
         "Winnipeg (YWG)": 3698,
         "Halifax (YHZ)": 50620,
         "Quebec City": 26892,
-        "Victoria": 51337,
         "Saskatoon": 3328,
         "St. John's": 50089,
-        "Pitt Meadows": 6830,
-        "Surrey": 1108,
-        "Burnaby": 888,
-        "Richmond": 6831
     }
     return stations
 
