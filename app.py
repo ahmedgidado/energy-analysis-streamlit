@@ -8,6 +8,18 @@ import requests
 from dateutil import rrule
 from io import StringIO
 
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #f7f7f7; /* Light grey background */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 # Configure the page
 st.set_page_config(
     page_title="Energy Analysis Application",
