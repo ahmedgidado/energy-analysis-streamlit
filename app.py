@@ -215,7 +215,7 @@ elif page == "🌤️ Weather Data":
         selected_station = st.selectbox(
             "📍 Select Weather Station", 
             list(stations.keys()),
-            index=list(stations.keys()).index("Pitt Meadows") if "Pitt Meadows" in stations else 0
+            index=list(stations.keys()).index("Vancouver Harbour BC") if "Vancouver Harbour BC" in stations else 0
         )
         station_id = stations[selected_station]
     
