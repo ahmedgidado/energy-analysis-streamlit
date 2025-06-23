@@ -11,13 +11,14 @@ from io import StringIO
 st.markdown(
     """
     <style>
-    body {
-        background-color: #ffffff; /* Light grey background */
+    .stApp {
+        background-color: #e8e9ec;  /* A pleasant light background */
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 # Configure the page
