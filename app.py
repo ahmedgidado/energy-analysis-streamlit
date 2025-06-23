@@ -100,12 +100,11 @@ def get_weather_data_range(stationID, start_date, end_date):
         weather_data['Temp (°C)'] = pd.to_numeric(weather_data['Temp (°C)'], errors='coerce')
         weather_data['Dew Point Temp (°C)'] = pd.to_numeric(weather_data['Dew Point Temp (°C)'], errors='coerce')
         weather_data['Rel Hum (%)'] = pd.to_numeric(weather_data['Rel Hum (%)'], errors='coerce')
-        weather_data['Wind Spd (km/h)'] = pd.to_numeric(weather_data['Wind Spd (km/h)'], errors='coerce')
         
         # Select and rename columns
         if 'Date/Time (LST)' in weather_data.columns:
-            specific_wd = weather_data[['Date/Time (LST)', 'Temp (°C)', 'Dew Point Temp (°C)', 'Rel Hum (%)', 'Wind Spd (km/h)']].copy()
-            specific_wd.columns = ['Date_Time', 'Temperature (°C)', 'Dew_Point_Temp_C', 'Humidity (%)', 'Wind Speed (km/h)']
+            specific_wd = weather_data[['Date/Time (LST)', 'Temp (°C)', 'Dew Point Temp (°C)', 'Rel Hum (%)']].copy()
+            specific_wd.columns = ['Date_Time', 'Temperature (°C)', 'Dew_Point_Temp_C', 'Humidity (%)']
             
             # Handle missing data with interpolation
             missing_before = specific_wd['Temperature (°C)'].isnull().sum()
@@ -114,7 +113,6 @@ def get_weather_data_range(stationID, start_date, end_date):
                 specific_wd['Temperature (°C)'] = specific_wd['Temperature (°C)'].interpolate()
                 specific_wd['Dew_Point_Temp_C'] = specific_wd['Dew_Point_Temp_C'].interpolate()
                 specific_wd['Humidity (%)'] = specific_wd['Humidity (%)'].interpolate()
-                specific_wd['Wind Speed (km/h)'] = specific_wd['Wind Speed (km/h)'].interpolate()
             
             # Add location info
             stations = get_environment_canada_stations()
